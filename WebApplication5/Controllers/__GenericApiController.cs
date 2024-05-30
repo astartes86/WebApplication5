@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
+using WebApplication5.Pagination;
 
 namespace WebApplication5.Controllers
 {
@@ -14,14 +16,14 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult<IEnumerable<TEntity>> GetAll()
+        public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var entities = repository.GetAll();
+            var entities = repository.GetAll().Paginate(pageable);
 
             return Ok(entities);
         }
