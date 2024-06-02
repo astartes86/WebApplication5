@@ -1,6 +1,7 @@
 using WebApplication5.DAL;
 using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
+using WebApplication5.Middleware;
 using WebApplication5.Repositories;
 
 namespace WebApplication5
@@ -36,6 +37,7 @@ namespace WebApplication5
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.MapControllers();
             app.MapDefaultControllerRoute();
             //app.MapGet("/", () => $"Имя рабочего процесса: {System.Диагностика.Процесс.GetCurrentProcess().ProcessName}");

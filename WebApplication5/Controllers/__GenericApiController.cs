@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
+using WebApplication5.Ordering;
 using WebApplication5.Pagination;
 
 namespace WebApplication5.Controllers
@@ -16,16 +18,29 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable)
+        public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ThrowValidationError();
             }
 
-            var entities = repository.GetAll().Paginate(pageable);
+            var dataPage = repository.GetAll()
+                                        .ApplyOrder(orderable)
+                                        .Paginate(pageable)
+                                        ;
 
-            return Ok(entities);
+            return Ok(dataPage);
+        }
+        /// <summary>
+        /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
+        /// </summary>
+        /// <returns><see cref="" /></returns>
+        protected void ThrowValidationError()
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage).ToList();
+
+            throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
         }
 
         [HttpGet("{id}")]
