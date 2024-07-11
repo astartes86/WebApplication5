@@ -36,10 +36,12 @@ namespace WebApplication5
             }
 
             app.UseHttpsRedirection();
+
+            app.UseRouting();
             app.UseAuthorization();
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.MapControllers();
-            app.MapDefaultControllerRoute();
+            //app.MapDefaultControllerRoute();
             //app.MapGet("/", () => $"Имя рабочего процесса: {System.Диагностика.Процесс.GetCurrentProcess().ProcessName}");
             app.Run();
         }

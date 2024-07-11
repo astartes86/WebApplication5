@@ -17,7 +17,7 @@ namespace WebApplication5.Controllers
             this.repository = repository;
         }
 
-        [HttpGet]
+        [HttpPost("get-all")]
         public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
         {
             if (!ModelState.IsValid)
@@ -40,10 +40,10 @@ namespace WebApplication5.Controllers
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage).ToList();
 
-            throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
+            //throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
         }
 
-        [HttpGet("{id}")]
+        [HttpPost("get{id}")]
         public ActionResult<TEntity> GetOne(int id)
         {
             var foundEntity = repository.GetById(id);
@@ -57,7 +57,7 @@ namespace WebApplication5.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("create")]
         public ActionResult<TEntity> Create([FromBody] TEntity toCreate)
         {
             if (!ModelState.IsValid)
@@ -70,7 +70,7 @@ namespace WebApplication5.Controllers
             return Ok(created);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPost("update{id}")]
         public ActionResult<TEntity> Update(int id, [FromBody] TEntity toUpdate)
         {
             if (!ModelState.IsValid)
@@ -89,7 +89,7 @@ namespace WebApplication5.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpPost("delete{id}")]
         public ActionResult<TEntity> Delete(int id)
         {
             var entity = repository.GetById(id);

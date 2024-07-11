@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.Json;
 using WebApplication5.Exceptions;
 using WebApplication5.Models;
+using ValidationException = WebApplication5.Exceptions.ValidationException;
 
 namespace WebApplication5.Middleware
 {
