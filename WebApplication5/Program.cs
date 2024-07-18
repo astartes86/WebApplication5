@@ -20,7 +20,10 @@ namespace WebApplication5
             services.AddControllers();
 
             builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();//Для разрешения фреймворка внедрения зависимостей
-                                                                                       //IRepository сначала он должен быть зарегистрирован в контейнере.
+                                                                                    //IRepository сначала он должен быть зарегистрирован в контейнере.
+            builder.Services.AddScoped<IRepository<Note>, NotesRepository>();
+            builder.Services.AddScoped<IRepository<Reminder>, ReminderRepository>();
+            builder.Services.AddScoped<IRepository<Tag>, TagRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

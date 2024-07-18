@@ -15,6 +15,9 @@ public class MemoryDbContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
     public virtual DbSet<Department> Departments { get; set; }
+    public virtual DbSet<Note> Notes { get; set; }
+    public virtual DbSet<Reminder> Reminders { get; set; }
+    public virtual DbSet<Tag> Tags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,6 +35,48 @@ public class MemoryDbContext : DbContext
                   .IsRequired()
                   .HasMaxLength(100);
         });
+
+        modelBuilder.Entity<Note>(entity =>
+        {
+            entity.ToTable(nameof(Note));
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Header)
+                  .IsRequired()
+                  .HasMaxLength(200);
+
+            entity.Property(e => e.Text)
+                  .IsRequired()
+                  .HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<Reminder>(entity =>
+        {
+            entity.ToTable(nameof(Reminder));
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Header)
+                  .IsRequired()
+                  .HasMaxLength(200);
+
+            entity.Property(e => e.Text)
+                  .IsRequired()
+                  .HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<Tag>(entity =>
+        {
+            entity.ToTable(nameof(Tag));
+
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Name)
+                  .IsRequired()
+                  .HasMaxLength(200);
+        });
+
         modelBuilder.Entity<Department>(entity =>
         {
             entity.ToTable(nameof(Departments));
