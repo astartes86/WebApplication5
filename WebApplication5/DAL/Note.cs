@@ -11,11 +11,9 @@ namespace WebApplication5.DAL
         [Required]
         public string Text { get; set; } = string.Empty;
 
-<<<<<<< HEAD
+
         public IEnumerable<NoteTag> NoteTags { get; set; } = new List<NoteTag>();
-=======
-        public IEnumerable<Tag> Tags { get; set; } = new List<Tag>();
->>>>>>> 9731f92 (добавил свои сущности, протестил их свагером. остается удалить исходные. или мож оставлю пока.)
+
 
 
     }

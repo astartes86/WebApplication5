@@ -10,10 +10,9 @@ namespace WebApplication5.Repositories
         {
         }
 
-<<<<<<< HEAD
+
         protected override DbSet<Reminder> _dbSet => _dbContext.Reminders;
-=======
-        protected override DbSet<Reminder> DbSet => _dbContext.Reminders;
->>>>>>> 9731f92 (добавил свои сущности, протестил их свагером. остается удалить исходные. или мож оставлю пока.)
+
+
     }
 }
