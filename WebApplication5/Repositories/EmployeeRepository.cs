@@ -10,6 +10,6 @@ namespace WebApplication5.Repositories
             {
             }
 
-            protected override DbSet<Employee> DbSet => _dbContext.Employees;
+            protected override DbSet<Employee> _dbSet => _dbContext.Employees;
         }
 }

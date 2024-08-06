@@ -15,8 +15,12 @@ namespace WebApplication5.Extensions
 
             services.AddDbContext<MemoryDbContext>(opts => opts.UseSqlServer(connectionString));
 
-            services.AddScoped<IRepository<Employee>, EmployeeRepository>();
+            services.AddScoped<IRepository<Employee>, EmployeeRepository>();//Для разрешения фреймворка внедрения зависимостей
+                                                                            //IRepository сначала он должен быть зарегистрирован в контейнере.
             services.AddScoped<IRepository<Department>, DepartmentsRepository>();
+            services.AddScoped<IRepository<Note>, NotesRepository>();
+            services.AddScoped<IRepository<Reminder>, ReminderRepository>();
+            services.AddScoped<IRepository<Tag>, TagRepository>();
 
             return services;
         }

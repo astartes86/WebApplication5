@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication5.DAL;
 
@@ -10,9 +11,11 @@ using WebApplication5.DAL;
 namespace WebApplication5.Migrations
 {
     [DbContext(typeof(MemoryDbContext))]
-    partial class MemoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240802193716_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,77 +156,6 @@ namespace WebApplication5.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("WebApplication5.DAL.Note", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Header")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Note", (string)null);
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Reminder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Header")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reminder");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("NoteId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReminderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NoteId");
-
-                    b.HasIndex("ReminderId");
-
-                    b.ToTable("Tag");
-                });
-
             modelBuilder.Entity("WebApplication5.DAL.Employee", b =>
                 {
                     b.HasOne("WebApplication5.DAL.Department", null)
@@ -231,7 +163,6 @@ namespace WebApplication5.Migrations
                         .HasForeignKey("DepartmentId");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("WebApplication5.DAL.NoteTag", b =>
                 {
                     b.HasOne("WebApplication5.DAL.Note", "Note")
@@ -268,17 +199,6 @@ namespace WebApplication5.Migrations
                     b.Navigation("Reminder");
 
                     b.Navigation("Tag");
-=======
-            modelBuilder.Entity("WebApplication5.DAL.Tag", b =>
-                {
-                    b.HasOne("WebApplication5.DAL.Note", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("NoteId");
-
-                    b.HasOne("WebApplication5.DAL.Reminder", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ReminderId");
->>>>>>> 9731f92 (добавил свои сущности, протестил их свагером. остается удалить исходные. или мож оставлю пока.)
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.Department", b =>
@@ -288,21 +208,12 @@ namespace WebApplication5.Migrations
 
             modelBuilder.Entity("WebApplication5.DAL.Note", b =>
                 {
-<<<<<<< HEAD
                     b.Navigation("NoteTags");
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.Tag", b =>
                 {
                     b.Navigation("NoteTags");
-=======
-                    b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Reminder", b =>
-                {
-                    b.Navigation("Tags");
->>>>>>> 9731f92 (добавил свои сущности, протестил их свагером. остается удалить исходные. или мож оставлю пока.)
                 });
 #pragma warning restore 612, 618
         }

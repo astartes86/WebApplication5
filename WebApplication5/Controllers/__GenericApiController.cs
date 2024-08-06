@@ -17,21 +17,35 @@ namespace WebApplication5.Controllers
             this.repository = repository;
         }
 
+        /*       [HttpPost("get-all")]
+               public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
+               {
+                   if (!ModelState.IsValid)
+                   {
+                       ThrowValidationError();
+                   }
+
+                   var dataPage = repository.GetAll()
+                                               .ApplyOrder(orderable)
+                                               .Paginate(pageable)
+                                               ;
+
+                   return Ok(dataPage);
+               }
+       */
         [HttpPost("get-all")]
-        public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
+        public virtual ActionResult<IEnumerable<TEntity>> GetAll()
         {
             if (!ModelState.IsValid)
             {
-                ThrowValidationError();
+                return BadRequest(ModelState);
             }
 
-            var dataPage = repository.GetAll()
-                                        .ApplyOrder(orderable)
-                                        .Paginate(pageable)
-                                        ;
+            var entities = repository.GetAll();
 
-            return Ok(dataPage);
+            return Ok(entities);
         }
+
         /// <summary>
         /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApplication5.Interfaces;
 
 namespace WebApplication5.DAL;
 
@@ -21,6 +22,10 @@ public class MemoryDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+<<<<<<< HEAD
+        modelBuilder.Entity<NoteTag>().HasKey(u => new { u.NoteId, u.TagId });
+        modelBuilder.Entity<ReminderTag>().HasKey(u => new { u.ReminderId, u.TagId });
+=======
         modelBuilder.Entity<Employee>(entity =>
         {
             entity.ToTable(nameof(Employees));
@@ -87,6 +92,7 @@ public class MemoryDbContext : DbContext
                     .IsRequired()
                     .HasMaxLength(200);
         });
+>>>>>>> 9731f92 (добавил свои сущности, протестил их свагером. остается удалить исходные. или мож оставлю пока.)
     }
 
 }

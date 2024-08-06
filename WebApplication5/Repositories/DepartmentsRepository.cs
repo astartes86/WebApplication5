@@ -10,6 +10,6 @@ namespace WebApplication5.Repositories
         {
         }
 
-        protected override DbSet<Department> DbSet => _dbContext.Departments;
+        protected override DbSet<Department> _dbSet => _dbContext.Departments;
     }
 }

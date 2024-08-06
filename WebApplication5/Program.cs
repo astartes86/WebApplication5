@@ -19,11 +19,19 @@ namespace WebApplication5
             services.AddDbContext(configuration); // подключение DB контекста
             services.AddControllers();
 
+<<<<<<< HEAD
+            //builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();//Для разрешения фреймворка внедрения зависимостей
+                                                                                    //IRepository сначала он должен быть зарегистрирован в контейнере.
+            //builder.Services.AddScoped<IRepository<Note>, NotesRepository>();
+            //builder.Services.AddScoped<IRepository<Reminder>, ReminderRepository>();
+            //builder.Services.AddScoped<IRepository<Tag>, TagRepository>();  
+=======
             builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();//Для разрешения фреймворка внедрения зависимостей
                                                                                     //IRepository сначала он должен быть зарегистрирован в контейнере.
             builder.Services.AddScoped<IRepository<Note>, NotesRepository>();
             builder.Services.AddScoped<IRepository<Reminder>, ReminderRepository>();
             builder.Services.AddScoped<IRepository<Tag>, TagRepository>();
+>>>>>>> 9731f92 (РґРѕР±Р°РІРёР» СЃРІРѕРё СЃСѓС‰РЅРѕСЃС‚Рё, РїСЂРѕС‚РµСЃС‚РёР» РёС… СЃРІР°РіРµСЂРѕРј. РѕСЃС‚Р°РµС‚СЃСЏ СѓРґР°Р»РёС‚СЊ РёСЃС…РѕРґРЅС‹Рµ. РёР»Рё РјРѕР¶ РѕСЃС‚Р°РІР»СЋ РїРѕРєР°.)
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
