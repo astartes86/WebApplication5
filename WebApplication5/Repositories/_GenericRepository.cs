@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
+using static Azure.Core.HttpHeader;
 
 namespace WebApplication5.Repositories
 {
@@ -29,14 +30,14 @@ namespace WebApplication5.Repositories
 
 
 
-            public async Task<TEntity> Update(int id, TEntity entity)
+            public TEntity Update(TEntity entity)
             {
                 _dbSet.Update(entity);
 
-                await _dbContext.SaveChangesAsync();
+                _dbContext.SaveChangesAsync();
 
                 return entity;
-            }
+        }
 
 
 
@@ -57,8 +58,9 @@ namespace WebApplication5.Repositories
 
             public async Task <IEnumerable<TEntity>> GetAll()
             {
-                return await _dbSet.AsNoTracking().ToListAsync();
-            }
+                //var notes = await _dbSet.ToListAsync();
+                return _dbSet;
+        }
 
 
 

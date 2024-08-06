@@ -84,15 +84,15 @@ namespace WebApplication5.Controllers
             return Ok(created);
         }
 
-        [HttpPost("update{id}")]
-        public ActionResult<TEntity> Update(int id, [FromBody] TEntity toUpdate)
+        [HttpPost("update")]
+        public ActionResult<TEntity> Update([FromBody] TEntity toUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var updated = repository.Update(id, toUpdate);
+            var updated = repository.Update(toUpdate);
 
             if (updated == null)
             {
