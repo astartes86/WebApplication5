@@ -12,7 +12,7 @@ namespace WebApplication5.DAL
         public string Text { get; set; } = string.Empty;
 
 
-        public IEnumerable<NoteTag> NoteTags { get; set; } = new List<NoteTag>();
+        //public IEnumerable<NoteTag> NoteTags { get; set; } = new List<NoteTag>();
 
 
 

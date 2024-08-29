@@ -1,23 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication5.DAL;
 using WebApplication5.Interfaces;
-using static Azure.Core.HttpHeader;
 
 namespace WebApplication5.Repositories
 {
         public abstract class GenericRepository<TDbContext, TEntity> : IRepository<TEntity>
             where TDbContext : DbContext
             where TEntity : class, IEntity
-        {
+    {
             protected readonly TDbContext _dbContext;
 
             protected abstract DbSet<TEntity> _dbSet { get; }
 
+            protected GenericRepository(TDbContext dbContext)
+            {
+                _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            }
 
 
 
 
-            public async Task<TEntity> Add(TEntity? entity)
+
+           public async Task<TEntity> Add(TEntity? entity)
             {
                 await _dbSet.AddAsync(entity);
 
@@ -30,7 +33,7 @@ namespace WebApplication5.Repositories
 
 
 
-            public TEntity Update(TEntity entity)
+            public async Task<TEntity> Update(TEntity entity)
             {
                 _dbSet.Update(entity);
 
@@ -66,7 +69,7 @@ namespace WebApplication5.Repositories
 
 
 
-            public TEntity? GetById(int id)
+            public async Task <TEntity?> GetById(int id)
             {
                 return _dbSet.FirstOrDefault(x => x.Id == id);
             }
@@ -75,9 +78,12 @@ namespace WebApplication5.Repositories
 
 
 
-            protected GenericRepository(TDbContext dbContext)
-            {
-                _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            }
-        }
+
+
+
+
+
+
+
+    }
 }

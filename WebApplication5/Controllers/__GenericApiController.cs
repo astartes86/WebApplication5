@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
@@ -11,12 +12,13 @@ namespace WebApplication5.Controllers
         where TEntity : class, IEntity
     {
         private readonly IRepository<TEntity> repository;
+        public IaddMethod bind;
 
-        protected GenericApiController(IRepository<TEntity> repository)
+        protected GenericApiController(IRepository<TEntity> repository, IaddMethod bind)
         {
             this.repository = repository;
+            this.bind = bind;
         }
-
         /*       [HttpPost("get-all")]
                public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
                {
@@ -24,27 +26,26 @@ namespace WebApplication5.Controllers
                    {
                        ThrowValidationError();
                    }
-
                    var dataPage = repository.GetAll()
                                                .ApplyOrder(orderable)
                                                .Paginate(pageable)
                                                ;
-
                    return Ok(dataPage);
                }
        */
         [HttpPost("get-all")]
-        public virtual ActionResult<IEnumerable<TEntity>> GetAll()
+        public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var entities = repository.GetAll();
+            var entities = await repository.GetAll();
 
             return Ok(entities);
         }
+
 
         /// <summary>
         /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
@@ -56,6 +57,9 @@ namespace WebApplication5.Controllers
 
             //throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
         }
+
+
+
 
         [HttpPost("get{id}")]
         public ActionResult<TEntity> GetOne(int id)
@@ -71,6 +75,8 @@ namespace WebApplication5.Controllers
         }
 
 
+
+
         [HttpPost("create")]
         public ActionResult<TEntity> Create([FromBody] TEntity toCreate)
         {
@@ -84,15 +90,18 @@ namespace WebApplication5.Controllers
             return Ok(created);
         }
 
+
+
+
         [HttpPost("update")]
-        public ActionResult<TEntity> Update([FromBody] TEntity toUpdate)
+        public async Task<ActionResult<TEntity>> Update([FromBody] TEntity toUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var updated = repository.Update(toUpdate);
+            var updated = await repository.Update(toUpdate);
 
             if (updated == null)
             {
@@ -103,10 +112,12 @@ namespace WebApplication5.Controllers
         }
 
 
+
+
         [HttpPost("delete{id}")]
-        public ActionResult<TEntity> Delete(int id)
+        public async Task<ActionResult<TEntity>> Delete(int id)
         {
-            var entity = repository.GetById(id);
+            var entity = await repository.GetById(id);
 
             if (entity == null)
             {
@@ -117,5 +128,9 @@ namespace WebApplication5.Controllers
 
             return Ok(entity);
         }
+
+
+
+
     }
 }

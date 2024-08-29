@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="AppData\memory_log.ldf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.3.24172.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.3.24172.4">
@@ -26,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Include="AppData\memory_log.ldf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Page>
+    <Folder Include="Commands\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Handlers\" />
   </ItemGroup>
 
 </Project>

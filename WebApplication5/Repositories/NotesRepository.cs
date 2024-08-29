@@ -10,8 +10,10 @@ namespace WebApplication5.Repositories
         {
         }
 
+        protected override DbSet<Note> _dbSet => _dbContext.Notes;
 
-        protected override DbSet<Note> _dbSet => _dbContext.Notes;//задаем формат для БД так понимаю
+
+
 
     }
 }

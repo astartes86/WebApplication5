@@ -8,7 +8,7 @@ namespace WebApplication5.Controllers
     [Route("/api/1.0/function/[controller]")]
     public class ReminderController : GenericApiController<Reminder>
     {
-        public ReminderController(IRepository<Reminder> repository) : base(repository)
+        public ReminderController(IRepository<Reminder> repository, IaddMethod bind) : base(repository, bind)
         {
         }
     }

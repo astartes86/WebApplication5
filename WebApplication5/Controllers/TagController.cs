@@ -8,7 +8,7 @@ namespace WebApplication5.Controllers
     [Route("/api/1.0/function/[controller]")]
     public class TagController : GenericApiController<Tag>
     {
-        public TagController(IRepository<Tag> repository) : base(repository)
+        public TagController(IRepository<Tag> repository, IaddMethod bind) : base(repository, bind)
         {
         }
     }
