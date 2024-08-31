@@ -8,8 +8,24 @@ namespace WebApplication5.Controllers
     [Route("/api/1.0/function/[controller]")]
     public class ReminderController : GenericApiController<Reminder>
     {
-        public ReminderController(IRepository<Reminder> repository, IaddMethod bind) : base(repository, bind)
+        public ReminderController(IRepository<Reminder> repository, IAddRepository bind) : base(repository, bind)
         {
         }
+
+
+        [HttpPost("bind")]
+        public async Task<ActionResult> Bind(int id, IEnumerable<int> tagsIds)//плюс добавим еще один контроллер, не типовой
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var binding = await bind.BindReminder(id, tagsIds);
+            if (binding == null)
+                return BadRequest("Wrong data for binding.");
+            return Ok(binding);
+        }
     }
+
 }

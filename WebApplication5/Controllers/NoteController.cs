@@ -19,21 +19,21 @@ namespace WebApplication5.Controllers
 
         //private IBind repository;
 
-        public NoteController(IRepository<Note> repository,IaddMethod bind) : base(repository,bind)   //задействуем все контроллеры описанные в генерике
+        public NoteController(IRepository<Note> repository,IAddRepository bind) : base(repository,bind)   //задействуем все контроллеры описанные в генерике
         {
         }
 
 
 
         [HttpPost("bind")]
-        public async Task<ActionResult> Bind(int noteId, IEnumerable<int> tagsIds)//плюс добавим еще один контроллер, не типовой
+        public async Task<ActionResult> Bind(int id, IEnumerable<int> tagsIds)//плюс добавим еще один контроллер, не типовой
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var binding = await bind.Bind(noteId, tagsIds);
+            var binding = await bind.BindNote(id, tagsIds);
             if (binding == null)
                 return BadRequest("Wrong data for binding.");
             return Ok(binding);

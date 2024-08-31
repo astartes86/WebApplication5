@@ -10,7 +10,6 @@ namespace WebApplication5.Repositories
         {
         }
 
-
         protected override DbSet<Tag> _dbSet => _dbContext.Tags;
 
     }

@@ -10,7 +10,6 @@ namespace WebApplication5.Repositories
         {
         }
 
-
         protected override DbSet<Reminder> _dbSet => _dbContext.Reminders;
 
 

@@ -12,9 +12,9 @@ namespace WebApplication5.Controllers
         where TEntity : class, IEntity
     {
         private readonly IRepository<TEntity> repository;
-        public IaddMethod bind;
+        public IAddRepository bind;
 
-        protected GenericApiController(IRepository<TEntity> repository, IaddMethod bind)
+        protected GenericApiController(IRepository<TEntity> repository, IAddRepository bind)
         {
             this.repository = repository;
             this.bind = bind;

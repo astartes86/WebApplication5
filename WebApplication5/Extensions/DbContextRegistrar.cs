@@ -18,7 +18,7 @@ namespace WebApplication5.Extensions
 
             services.AddScoped<IRepository<Note>, NotesRepository>();//Для разрешения фреймворка внедрения зависимостей
                                                                      //IRepository сначала он должен быть зарегистрирован в контейнере.
-            services.AddScoped<IaddMethod, NoteTagRepository<MemoryDbContext>>();
+            services.AddScoped<IAddRepository, LinksRepository<MemoryDbContext>>();
             services.AddScoped<IRepository<Reminder>, ReminderRepository>();
             services.AddScoped<IRepository<Tag>, TagRepository>();
 
