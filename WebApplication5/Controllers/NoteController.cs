@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
@@ -19,7 +20,7 @@ namespace WebApplication5.Controllers
 
         //private IBind repository;
 
-        public NoteController(IRepository<Note> repository,IAddRepository bind) : base(repository,bind)   //задействуем все контроллеры описанные в генерике
+        public NoteController(IRepository<Note> repository,IAddRepository bind, IMediator mediator) : base(repository,bind,mediator)   //задействуем все контроллеры описанные в генерике
         {
         }
 

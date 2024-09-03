@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using CQRSMediator.Queries.Notes.GetAllNotes;
+using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using WebApplication5.Extensions;
@@ -12,12 +15,15 @@ namespace WebApplication5.Controllers
         where TEntity : class, IEntity
     {
         private readonly IRepository<TEntity> repository;
+        private readonly IMediator _mediator;
+
         public IAddRepository bind;
 
-        protected GenericApiController(IRepository<TEntity> repository, IAddRepository bind)
+        protected GenericApiController(IRepository<TEntity> repository, IAddRepository bind, IMediator mediator)
         {
             this.repository = repository;
             this.bind = bind;
+            _mediator = mediator;
         }
         /*       [HttpPost("get-all")]
                public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
@@ -36,22 +42,22 @@ namespace WebApplication5.Controllers
         [HttpPost("get-all")]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var entities = await repository.GetAll();
-
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    var entities = await repository.GetAll();
+        //    return Ok(entities);
+            var entities = await _mediator.Send(new GetAllNotesQuery());
             return Ok(entities);
         }
 
 
-        /// <summary>
-        /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
-        /// </summary>
-        /// <returns><see cref="" /></returns>
-        protected void ThrowValidationError()
+    /// <summary>
+    /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
+    /// </summary>
+    /// <returns><see cref="" /></returns>
+    protected void ThrowValidationError()
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage).ToList();
 

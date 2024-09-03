@@ -14,6 +14,8 @@ namespace WebApplication5
             var services = builder.Services;
             var configuration = builder.Configuration;
 
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
             // Add services to the container.
             //services.AddAuthorization();
             services.AddDbContext(configuration); // подключение DB контекста
