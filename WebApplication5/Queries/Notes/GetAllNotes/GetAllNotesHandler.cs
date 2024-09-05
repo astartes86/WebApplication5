@@ -2,7 +2,7 @@
 using WebApplication5.Interfaces;
 using MediatR;
 
-namespace CQRSMediator.Queries.Notes.GetAllNotes
+namespace WebApplication5.Queries.Notes.GetAllNotes
 {
     public class GetAllNotesHandler : IRequestHandler<GetAllNotesQuery, IEnumerable<Note>>
     {

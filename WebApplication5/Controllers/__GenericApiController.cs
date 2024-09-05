@@ -1,4 +1,5 @@
-﻿using CQRSMediator.Queries.Notes.GetAllNotes;
+﻿using WebApplication5.Commands.Notes.CreateNote;
+using WebApplication5.Queries.Notes.GetAllNotes;
 using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -84,16 +85,16 @@ namespace WebApplication5.Controllers
 
 
         [HttpPost("create")]
-        public ActionResult<TEntity> Create([FromBody] TEntity toCreate)
+        public async Task<ActionResult<TEntity>> Create(CreateNoteCommand cmd)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var created = repository.Add(toCreate);
-
-            return Ok(created);
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            //var created = repository.Add(toCreate);
+            //return Ok(created);
+            var note = await _mediator.Send(cmd);
+            return Ok(note);
         }
 
 
