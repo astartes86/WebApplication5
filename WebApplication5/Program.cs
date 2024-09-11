@@ -22,10 +22,9 @@ namespace WebApplication5
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
-
-            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            //services.AddFluentValidationAutoValidation();
-
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddFluentValidationAutoValidation();
+             
 
             services.AddDbContext(configuration); // подключение DB контекста
             services.AddControllers();
