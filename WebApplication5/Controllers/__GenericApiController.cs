@@ -9,6 +9,10 @@ using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
 using WebApplication5.Ordering;
 using WebApplication5.Pagination;
+using WebApplication5.Commands.Notes.UpdateNote;
+using WebApplication5.Commands.Notes.DeleteNote;
+using WebApplication5.DAL;
+//using WebApplication5.Commands.Notes.UpdateNote;
 
 namespace WebApplication5.Controllers
 {
@@ -16,9 +20,8 @@ namespace WebApplication5.Controllers
         where TEntity : class, IEntity
     {
         private readonly IRepository<TEntity> repository;
-        private readonly IMediator _mediator;
-
-        public IAddRepository bind;
+        protected readonly IMediator _mediator;
+        protected IAddRepository bind;
 
         protected GenericApiController(IRepository<TEntity> repository, IAddRepository bind, IMediator mediator)
         {
@@ -43,22 +46,22 @@ namespace WebApplication5.Controllers
         [HttpPost("get-all")]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    var entities = await repository.GetAll();
-        //    return Ok(entities);
+            //    if (!ModelState.IsValid)
+            //    {
+            //        return BadRequest(ModelState);
+            //    }
+            //    var entities = await repository.GetAll();
+            //    return Ok(entities);
             var entities = await _mediator.Send(new GetAllNotesQuery());
             return Ok(entities);
         }
 
 
-    /// <summary>
-    /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
-    /// </summary>
-    /// <returns><see cref="" /></returns>
-    protected void ThrowValidationError()
+        /// <summary>
+        /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
+        /// </summary>
+        /// <returns><see cref="" /></returns>
+        protected void ThrowValidationError()
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage).ToList();
 
@@ -98,46 +101,56 @@ namespace WebApplication5.Controllers
         }
 
 
-
-
         [HttpPost("update")]
-        public async Task<ActionResult<TEntity>> Update([FromBody] TEntity toUpdate)
+        public async Task<ActionResult<TEntity>> Update(UpdateNoteCommand cmd)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var updated = await repository.Update(toUpdate);
-
-            if (updated == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(updated);
+            var note = await _mediator.Send(cmd);
+            if (note == null)
+                return BadRequest("This note does not exist");
+            return Ok(note);
         }
 
+        /*       [HttpPost("update")]
+                        public async Task<ActionResult<TEntity>> Update([FromBody] TEntity toUpdate)
+                        {
+                            if (!ModelState.IsValid)
+                            {
+                                return BadRequest(ModelState);
+                            }
 
+                            var updated = await repository.Update(toUpdate);
 
+                            if (updated == null)
+                            {
+                                return NotFound();
+                            }
 
-        [HttpPost("delete{id}")]
+                            return Ok(updated);
+                        }*/
+
+        [HttpPost("delete")]
+        public async Task<ActionResult> Delete(_GenericDeleteCommand<TEntity> cmd)
+        {
+            var noteId = await _mediator.Send(cmd);
+            if (noteId == null)
+                return BadRequest("This note does not exist.");
+            return Ok($"Deleted note with id {noteId}.");
+        }
+
+/*        [HttpPost("delete{id}")]
         public async Task<ActionResult<TEntity>> Delete(int id)
         {
-            var entity = await repository.GetById(id);
+           var entity = await repository.GetById(id);
 
-            if (entity == null)
-            {
-                return NotFound();
-            }
+           if (entity == null)
+           {
+               return NotFound();
+           }
 
-            repository.Delete(entity);
+           repository.Delete(entity);
 
-            return Ok(entity);
-        }
-
-
-
+           return Ok(entity);
+        }*/
 
     }
 }

@@ -4,7 +4,7 @@
     {
         Task<TEntity> Add(TEntity entity);
         Task<TEntity> Update(TEntity entity);
-        Task<TEntity> Delete(TEntity entity);
+        Task<int?> Delete(int id);
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity?> GetById(int id);// не определяю в задачу чтобы использовать еще и при удалении
 

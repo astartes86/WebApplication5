@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApplication5.DAL;
 using WebApplication5.Interfaces;
 
 namespace WebApplication5.Repositories
@@ -46,15 +47,26 @@ namespace WebApplication5.Repositories
 
 
 
-            public async Task<TEntity> Delete(TEntity entity)
+/*            public async Task<TEntity> Delete(TEntity entity)
             {
                 _dbSet.Remove(entity);
 
                 await _dbContext.SaveChangesAsync();
 
             return entity;
-            }
+            }*/
+            public async Task <int?> Delete(int id)
+            {
+            var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
 
+            if (entity != null)
+                {
+                    _dbSet.Remove(entity);
+                    await _dbContext.SaveChangesAsync();
+                    return entity.Id;
+                }
+            return null;
+            }
 
 
 
@@ -63,9 +75,9 @@ namespace WebApplication5.Repositories
             {
                 //var notes = await _dbSet.ToListAsync();
                 return _dbSet;
-        }
+            }
 
-
+         
 
 
 

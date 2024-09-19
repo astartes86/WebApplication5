@@ -5,24 +5,11 @@
 namespace WebApplication5.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Notes",
                 columns: table => new
@@ -62,26 +49,6 @@ namespace WebApplication5.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -133,11 +100,6 @@ namespace WebApplication5.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_DepartmentId",
-                table: "Employees",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_NoteTag_TagId",
                 table: "NoteTag",
                 column: "TagId");
@@ -152,16 +114,10 @@ namespace WebApplication5.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
                 name: "NoteTag");
 
             migrationBuilder.DropTable(
                 name: "ReminderTag");
-
-            migrationBuilder.DropTable(
-                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Notes");

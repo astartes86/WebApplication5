@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication5.Commands.Notes.BindTags;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
 using WebApplication5.Repositories;
@@ -25,22 +26,29 @@ namespace WebApplication5.Controllers
         }
 
 
+        /*
+                [HttpPost("bind")]
+                public async Task<ActionResult> Bind(int id, IEnumerable<int> tagsIds)//плюс добавим еще один контроллер, не типовой
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
 
+                    var binding = await bind.BindNote(id, tagsIds);
+                    if (binding == null)
+                        return BadRequest("Wrong data for binding.");
+                    return Ok(binding);
+                }
+        */
         [HttpPost("bind")]
-        public async Task<ActionResult> Bind(int id, IEnumerable<int> tagsIds)//плюс добавим еще один контроллер, не типовой
+        public async Task<ActionResult> Bind(BindTagsToNoteCommand cmd)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var binding = await bind.BindNote(id, tagsIds);
+            var binding = await _mediator.Send(cmd);
             if (binding == null)
                 return BadRequest("Wrong data for binding.");
             return Ok(binding);
         }
-
-
 
     }
 }

@@ -21,49 +21,6 @@ namespace WebApplication5.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApplication5.DAL.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments", (string)null);
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees", (string)null);
-                });
-
             modelBuilder.Entity("WebApplication5.DAL.Note", b =>
                 {
                     b.Property<int>("Id")
@@ -82,7 +39,7 @@ namespace WebApplication5.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notes", (string)null);
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.NoteTag", b =>
@@ -97,7 +54,7 @@ namespace WebApplication5.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("NoteTag", (string)null);
+                    b.ToTable("NoteTag");
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.Reminder", b =>
@@ -118,7 +75,7 @@ namespace WebApplication5.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reminders", (string)null);
+                    b.ToTable("Reminders");
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.ReminderTag", b =>
@@ -133,7 +90,7 @@ namespace WebApplication5.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ReminderTag", (string)null);
+                    b.ToTable("ReminderTag");
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.Tag", b =>
@@ -150,26 +107,19 @@ namespace WebApplication5.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags", (string)null);
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Employee", b =>
-                {
-                    b.HasOne("WebApplication5.DAL.Department", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("DepartmentId");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("WebApplication5.DAL.NoteTag", b =>
                 {
                     b.HasOne("WebApplication5.DAL.Note", "Note")
-                        .WithMany("NoteTags")
+                        .WithMany()
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication5.DAL.Tag", "Tag")
-                        .WithMany("NoteTags")
+                        .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -196,21 +146,6 @@ namespace WebApplication5.Migrations
                     b.Navigation("Reminder");
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Note", b =>
-                {
-                    b.Navigation("NoteTags");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Tag", b =>
-                {
-                    b.Navigation("NoteTags");
                 });
 #pragma warning restore 612, 618
         }

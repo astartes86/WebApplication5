@@ -11,8 +11,8 @@ using WebApplication5.DAL;
 namespace WebApplication5.Migrations
 {
     [DbContext(typeof(MemoryDbContext))]
-    [Migration("20240802193716_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240919140003_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,49 +23,6 @@ namespace WebApplication5.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("WebApplication5.DAL.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees");
-                });
 
             modelBuilder.Entity("WebApplication5.DAL.Note", b =>
                 {
@@ -156,23 +113,16 @@ namespace WebApplication5.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("WebApplication5.DAL.Employee", b =>
-                {
-                    b.HasOne("WebApplication5.DAL.Department", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("DepartmentId");
-                });
-
             modelBuilder.Entity("WebApplication5.DAL.NoteTag", b =>
                 {
                     b.HasOne("WebApplication5.DAL.Note", "Note")
-                        .WithMany("NoteTags")
+                        .WithMany()
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication5.DAL.Tag", "Tag")
-                        .WithMany("NoteTags")
+                        .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -199,21 +149,6 @@ namespace WebApplication5.Migrations
                     b.Navigation("Reminder");
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Note", b =>
-                {
-                    b.Navigation("NoteTags");
-                });
-
-            modelBuilder.Entity("WebApplication5.DAL.Tag", b =>
-                {
-                    b.Navigation("NoteTags");
                 });
 #pragma warning restore 612, 618
         }
