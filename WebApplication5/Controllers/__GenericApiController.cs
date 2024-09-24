@@ -102,7 +102,7 @@ namespace WebApplication5.Controllers
 
 
         [HttpPost("update")]
-        public async Task<ActionResult<TEntity>> Update(UpdateNoteCommand cmd)
+        public async Task<ActionResult<TEntity>> Update(UpdateCommand<TEntity> cmd)
         {
             var note = await _mediator.Send(cmd);
             if (note == null)

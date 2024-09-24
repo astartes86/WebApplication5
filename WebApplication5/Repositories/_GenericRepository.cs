@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
+
 
 namespace WebApplication5.Repositories
 {
@@ -36,12 +38,16 @@ namespace WebApplication5.Repositories
 
             public async Task<TEntity> Update(TEntity entity)
             {
-                _dbSet.Update(entity);
 
-                _dbContext.SaveChangesAsync();
+            if (_dbContext.Set<TEntity>().Any(e => e.Id == entity.Id))
+            {
+                    _dbContext.Update(entity);
+                    _dbContext.SaveChangesAsync();
 
-                return entity;
-        }
+                    return entity;
+                }
+            throw new ArgumentException("No such id in base");
+            }
 
 
 
@@ -81,20 +87,10 @@ namespace WebApplication5.Repositories
 
 
 
-            public async Task <TEntity?> GetById(int id)
-            {
+            public async Task<TEntity?> GetById(int id) => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);//ого как интересно получилось записать!
+/*            {
                 return _dbSet.FirstOrDefault(x => x.Id == id);
-            }
-
-
-
-
-
-
-
-
-
-
+            }*/
 
 
     }
