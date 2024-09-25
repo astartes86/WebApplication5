@@ -1,7 +1,7 @@
-﻿using WebApplication5.Commands.Notes.BindTags;
-using FluentValidation;
+﻿using FluentValidation;
+using WebApplication5.Commands.CRUD.BindTags;
 
-namespace WebApplication5.Validators.Notes
+namespace WebApplication5.Validators.Entities
 {
     public class BindNoteValidator : AbstractValidator<BindTagsToNoteCommand>
     {
@@ -10,8 +10,8 @@ namespace WebApplication5.Validators.Notes
             RuleFor(x => x.NoteId).NotEmpty().WithMessage("NoteId is required.");
             RuleFor(x => x.TagsIds)
                 .NotEmpty().WithMessage("TagIds is required")
-                .Must(x => x.All(tagId => tagId > 0)).WithMessage("TagIds must be greate than 0."); 
-                
+                .Must(x => x.All(tagId => tagId > 0)).WithMessage("TagIds must be greate than 0.");
+
         }
     }
 }

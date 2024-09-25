@@ -5,6 +5,7 @@ namespace WebApplication5.DAL
 {
     public class Note : IEntity
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Header { get; set; } = string.Empty;

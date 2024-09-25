@@ -1,8 +1,8 @@
-﻿using WebApplication5.Commands.Notes.UpdateNote;
+﻿using WebApplication5.Commands.CRUD.Update;
 using FluentValidation;
 using WebApplication5.Interfaces;
 
-namespace WebApplication5.Validators.Notes
+namespace WebApplication5.Validators.Entities
 {
     public class UpdateValidator<TEntity> : AbstractValidator<UpdateCommand<TEntity>>
         where TEntity : IEntity

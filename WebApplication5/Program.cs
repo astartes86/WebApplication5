@@ -22,6 +22,7 @@ namespace WebApplication5
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddFluentValidationAutoValidation();
              

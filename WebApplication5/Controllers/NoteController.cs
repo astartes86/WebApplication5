@@ -1,10 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApplication5.Commands.Notes.BindTags;
+using WebApplication5.Commands.CRUD.BindTags;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
-using WebApplication5.Repositories;
 
 namespace WebApplication5.Controllers
 {

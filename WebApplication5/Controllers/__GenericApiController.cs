@@ -1,18 +1,12 @@
-﻿using WebApplication5.Commands.Notes.CreateNote;
-using WebApplication5.Queries.Notes.GetAllNotes;
-using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using WebApplication5.Extensions;
+using WebApplication5.Commands.CRUD.Create;
+using WebApplication5.Commands.CRUD.Delete;
+using WebApplication5.Commands.CRUD.Update;
 using WebApplication5.Interfaces;
-using WebApplication5.Ordering;
-using WebApplication5.Pagination;
-using WebApplication5.Commands.Notes.UpdateNote;
-using WebApplication5.Commands.Notes.DeleteNote;
-using WebApplication5.DAL;
-//using WebApplication5.Commands.Notes.UpdateNote;
+using WebApplication5.Queries.GetAllEntities;
+
 
 namespace WebApplication5.Controllers
 {
@@ -52,8 +46,11 @@ namespace WebApplication5.Controllers
             //    }
             //    var entities = await repository.GetAll();
             //    return Ok(entities);
-            var entities = await _mediator.Send(new GetAllNotesQuery());
+            var query = new GetAllEntitiesQuery<TEntity>();
+            var entities = await _mediator.Send(query);
             return Ok(entities);
+/*            var entities = await _mediator.Send(new GetAllNotesQuery());
+            return Ok(entities);*/
         }
 
 
@@ -67,8 +64,6 @@ namespace WebApplication5.Controllers
 
             //throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
         }
-
-
 
 
         [HttpPost("get{id}")]
@@ -85,10 +80,8 @@ namespace WebApplication5.Controllers
         }
 
 
-
-
         [HttpPost("create")]
-        public async Task<ActionResult<TEntity>> Create(CreateNoteCommand cmd)
+        public async Task<ActionResult<TEntity>> Create(CreateCommand<TEntity> cmd)
         {
             //if (!ModelState.IsValid)
             //{
@@ -102,6 +95,7 @@ namespace WebApplication5.Controllers
 
 
         [HttpPost("update")]
+        //public async Task<ActionResult<TEntity>> Update([FromBody] TEntity toUpdate)
         public async Task<ActionResult<TEntity>> Update(UpdateCommand<TEntity> cmd)
         {
             var note = await _mediator.Send(cmd);
@@ -110,47 +104,17 @@ namespace WebApplication5.Controllers
             return Ok(note);
         }
 
-        /*       [HttpPost("update")]
-                        public async Task<ActionResult<TEntity>> Update([FromBody] TEntity toUpdate)
-                        {
-                            if (!ModelState.IsValid)
-                            {
-                                return BadRequest(ModelState);
-                            }
-
-                            var updated = await repository.Update(toUpdate);
-
-                            if (updated == null)
-                            {
-                                return NotFound();
-                            }
-
-                            return Ok(updated);
-                        }*/
 
         [HttpPost("delete")]
-        public async Task<ActionResult> Delete(_GenericDeleteCommand<TEntity> cmd)
+        //public async Task<ActionResult<TEntity>> Delete(int id)
+        public async Task<ActionResult> Delete(DeleteCommand<TEntity> cmd)
         {
             var noteId = await _mediator.Send(cmd);
             if (noteId == null)
                 return BadRequest("This note does not exist.");
-            return Ok($"Deleted note with id {noteId}.");
+            return Ok($"Deleted note with id {noteId.Id}.");
         }
 
-/*        [HttpPost("delete{id}")]
-        public async Task<ActionResult<TEntity>> Delete(int id)
-        {
-           var entity = await repository.GetById(id);
-
-           if (entity == null)
-           {
-               return NotFound();
-           }
-
-           repository.Delete(entity);
-
-           return Ok(entity);
-        }*/
 
     }
 }

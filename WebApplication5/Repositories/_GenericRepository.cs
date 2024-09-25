@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using WebApplication5.DAL;
 using WebApplication5.Interfaces;
 
 
 namespace WebApplication5.Repositories
 {
-        public abstract class GenericRepository<TDbContext, TEntity> : IRepository<TEntity>
+    public abstract class GenericRepository<TDbContext, TEntity> : IRepository<TEntity>
             where TDbContext : DbContext
             where TEntity : class, IEntity
     {
@@ -20,20 +18,29 @@ namespace WebApplication5.Repositories
             }
 
 
-
-
-
            public async Task<TEntity> Add(TEntity? entity)
             {
                 await _dbSet.AddAsync(entity);
 
-                await _dbContext.SaveChangesAsync();//гарантируем сохранность данных потому что  add добавляет новую сущность в контекст данных
-
-                return entity;
+                //await _dbContext.SaveChangesAsync();//гарантируем сохранность данных потому что  add добавляет новую сущность в контекст данных
+            try
+            {
+                // Ваш код, который сохраняет изменения в базе данных
+                await _dbContext.SaveChangesAsync();
             }
+            catch (Exception ex)
+            {
+                // Выводим основное сообщение об ошибке
+                Console.WriteLine("!!!не хочет сохранить!!!");
 
-
-
+                // Выводим внутреннее исключение, если оно есть
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+            }
+            return entity;
+            }
 
 
             public async Task<TEntity> Update(TEntity entity)
@@ -50,9 +57,6 @@ namespace WebApplication5.Repositories
             }
 
 
-
-
-
 /*            public async Task<TEntity> Delete(TEntity entity)
             {
                 _dbSet.Remove(entity);
@@ -61,7 +65,7 @@ namespace WebApplication5.Repositories
 
             return entity;
             }*/
-            public async Task <int?> Delete(int id)
+            public async Task <TEntity> Delete(int id)
             {
             var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -69,24 +73,19 @@ namespace WebApplication5.Repositories
                 {
                     _dbSet.Remove(entity);
                     await _dbContext.SaveChangesAsync();
-                    return entity.Id;
+                    return entity;
                 }
             return null;
             }
 
 
-
-
             public async Task <IEnumerable<TEntity>> GetAll()
             {
                 //var notes = await _dbSet.ToListAsync();
-                return _dbSet;
+                return await _dbSet.ToListAsync();
             }
 
          
-
-
-
             public async Task<TEntity?> GetById(int id) => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);//ого как интересно получилось записать!
 /*            {
                 return _dbSet.FirstOrDefault(x => x.Id == id);

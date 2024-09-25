@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using WebApplication5.DAL;
+using WebApplication5.Interfaces;
 
-
-namespace WebApplication5.Commands.Notes.UpdateNote
+namespace WebApplication5.Commands.CRUD.Update
 {
     public class UpdateCommand<TEntity> : IRequest<TEntity>
 

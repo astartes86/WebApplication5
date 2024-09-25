@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using WebApplication5.DAL;
 
 namespace WebApplication5.DAL
 {

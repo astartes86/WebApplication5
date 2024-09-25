@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
-using static WebApplication5.Repositories.NotesRepository;
 
 namespace WebApplication5.Repositories
 {
@@ -11,7 +10,7 @@ namespace WebApplication5.Repositories
     //            : base(dbContext)
     //        {
     //        }
-        public class LinksRepository<TDbContext> : IAddRepository
+    public class LinksRepository<TDbContext> : IAddRepository
                     where TDbContext : DbContext
     {
             private readonly MemoryDbContext _context;

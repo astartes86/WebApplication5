@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication5.Interfaces;
 
 namespace WebApplication5.DAL;
 
