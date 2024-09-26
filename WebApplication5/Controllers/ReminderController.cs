@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication5.Commands.BindTags;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
 
@@ -15,14 +16,9 @@ namespace WebApplication5.Controllers
 
 
         [HttpPost("bind")]
-        public async Task<ActionResult> Bind(int id, IEnumerable<int> tagsIds)//плюс добавим еще один контроллер, не типовой
+        public async Task<ActionResult> Bind(BindTagsToReminderCommand cmd)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var binding = await bind.BindReminder(id, tagsIds);
+            var binding = await _mediator.Send(cmd);
             if (binding == null)
                 return BadRequest("Wrong data for binding.");
             return Ok(binding);

@@ -4,10 +4,6 @@ namespace WebApplication5.DAL;
 
 public class MemoryDbContext : DbContext
 {
-    //public MemoryDbContext()
-    //{
-    //}
-
     public MemoryDbContext(DbContextOptions<MemoryDbContext> options): base(options)
     {
     }

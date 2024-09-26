@@ -4,12 +4,6 @@ using WebApplication5.Interfaces;
 
 namespace WebApplication5.Repositories
 {
-    //    public class NotesRepository : GenericRepository<MemoryDbContext, Note>
-    //    {
-    //        public NotesRepository(MemoryDbContext dbContext)
-    //            : base(dbContext)
-    //        {
-    //        }
     public class LinksRepository<TDbContext> : IAddRepository
                     where TDbContext : DbContext
     {
@@ -19,8 +13,6 @@ namespace WebApplication5.Repositories
             {
                 _context = MemoryContext ?? throw new ArgumentNullException(nameof(MemoryContext));
             }
-
-
 
 
         public async Task<IEnumerable<NoteTag>> BindNote(int noteId, IEnumerable<int> tagsIds)
@@ -47,8 +39,6 @@ namespace WebApplication5.Repositories
             await _context.SaveChangesAsync();
             return noteTagsList;
         }
-
-
 
 
         public async Task<IEnumerable<ReminderTag>?> BindReminder(int reminderId, IEnumerable<int> tagsIds)
@@ -79,9 +69,7 @@ namespace WebApplication5.Repositories
         }
 
 
-
-
-        public async Task<object> BindTag(int tagId, IEnumerable<int> noteIds, IEnumerable<int> reminderIds)
+        public async Task<Tag> BindTag(int tagId, IEnumerable<int> noteIds, IEnumerable<int> reminderIds)
         {
             var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
             if (tag == null)
@@ -122,8 +110,6 @@ namespace WebApplication5.Repositories
 
             await _context.ReminderTag.AddRangeAsync(reminderTagsList);
             await _context.SaveChangesAsync();
-
-
             return tag;
         }
     }

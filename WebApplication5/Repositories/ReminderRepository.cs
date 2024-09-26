@@ -9,9 +9,6 @@ namespace WebApplication5.Repositories
             : base(dbContext)
         {
         }
-
         protected override DbSet<Reminder> _dbSet => _dbContext.Reminders;
-
-
     }
 }

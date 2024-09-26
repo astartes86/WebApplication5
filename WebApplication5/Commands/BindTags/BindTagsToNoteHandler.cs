@@ -3,7 +3,7 @@ using MediatR;
 using WebApplication5.DAL;
 using WebApplication5.Interfaces;
 
-namespace WebApplication5.Commands.CRUD.BindTags
+namespace WebApplication5.Commands.BindTags
 {
     public class BindTagsToNoteHandler : IRequestHandler<BindTagsToNoteCommand, IEnumerable<NoteTag>>
     {

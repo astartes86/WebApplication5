@@ -10,6 +10,5 @@ namespace WebApplication5.DAL
 
         public string Text { get; set; } = string.Empty;
 
-        //public IEnumerable<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

@@ -7,6 +7,5 @@
         Task<TEntity> Delete(int id);
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity?> GetById(int id);// не определяю в задачу чтобы использовать еще и при удалении
-
     }
 }

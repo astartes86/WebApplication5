@@ -1,19 +1,18 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WebApplication5.Commands.CRUD.Create;
 using WebApplication5.Commands.CRUD.Delete;
 using WebApplication5.Commands.CRUD.Update;
 using WebApplication5.Interfaces;
 using WebApplication5.Queries.GetAllEntities;
-
+using WebApplication5.Queries.GetEntity;
 
 namespace WebApplication5.Controllers
 {
     public abstract class GenericApiController<TEntity> : ControllerBase
         where TEntity : class, IEntity
     {
-        private readonly IRepository<TEntity> repository;
+        private readonly IRepository<TEntity> repository;//удалить, но пока для памяти оставлю
         protected readonly IMediator _mediator;
         protected IAddRepository bind;
 
@@ -23,7 +22,8 @@ namespace WebApplication5.Controllers
             this.bind = bind;
             _mediator = mediator;
         }
-        /*       [HttpPost("get-all")]
+/*       оставляю в учебных целях не забывать:
+               [HttpPost("get-all")]
                public virtual ActionResult<IEnumerable<TEntity>> GetAll([FromQuery] Pageable pageable, [FromQuery] Orderable orderable)
                {
                    if (!ModelState.IsValid)
@@ -36,59 +36,41 @@ namespace WebApplication5.Controllers
                                                ;
                    return Ok(dataPage);
                }
-       */
+
+                protected void ThrowValidationError()
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage).ToList();
+
+                    //throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
+                }*/
+
+
         [HttpPost("get-all")]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
-            //    if (!ModelState.IsValid)
-            //    {
-            //        return BadRequest(ModelState);
-            //    }
-            //    var entities = await repository.GetAll();
-            //    return Ok(entities);
-            var query = new GetAllEntitiesQuery<TEntity>();
-            var entities = await _mediator.Send(query);
+            var entities = await _mediator.Send(new GetAllEntitiesQuery<TEntity>());
             return Ok(entities);
-/*            var entities = await _mediator.Send(new GetAllNotesQuery());
-            return Ok(entities);*/
         }
 
 
-        /// <summary>
-        /// Создает экземпляр <see cref="ValidationException" /> с сообщениями об ошибках валидации
-        /// </summary>
-        /// <returns><see cref="" /></returns>
-        protected void ThrowValidationError()
+        [HttpPost("get")]//[HttpPost("get{id}")]
+        public async Task<ActionResult<TEntity>> GetOne(GetQuery<TEntity> query)
         {
-            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage).ToList();
-
-            //throw new ValidationException($"Обнаружена одна или более ошибок валидации.\r\n{string.Join(@"\r\n\", errors)}");
-        }
-
-
-        [HttpPost("get{id}")]
-        public ActionResult<TEntity> GetOne(int id)
-        {
-            var foundEntity = repository.GetById(id);
-
-            if (foundEntity == null)
+            //var foundEntity = repository.GetById(id);
+            var queryEntity = await _mediator.Send(query);
+            if (queryEntity == null)
             {
                 return NotFound();
-            }
+                //return BadRequest("This note does not exist")
+            } 
 
-            return Ok(foundEntity);
+            return Ok(queryEntity);
         }
 
 
         [HttpPost("create")]
         public async Task<ActionResult<TEntity>> Create(CreateCommand<TEntity> cmd)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
-            //var created = repository.Add(toCreate);
-            //return Ok(created);
             var note = await _mediator.Send(cmd);
             return Ok(note);
         }
@@ -114,7 +96,5 @@ namespace WebApplication5.Controllers
                 return BadRequest("This note does not exist.");
             return Ok($"Deleted note with id {noteId.Id}.");
         }
-
-
     }
 }

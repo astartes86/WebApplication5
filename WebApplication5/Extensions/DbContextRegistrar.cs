@@ -9,6 +9,7 @@ using WebApplication5.Queries.GetAllEntities;
 using WebApplication5.Commands.CRUD.Create;
 using WebApplication5.Commands.CRUD.Delete;
 using WebApplication5.Commands.CRUD.Update;
+using WebApplication5.Queries.GetEntity;
 
 namespace WebApplication5.Extensions
 {
@@ -19,10 +20,6 @@ namespace WebApplication5.Extensions
         public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString(ConnectionStringName);
-
-/*            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetAllEntitiesHandler<Note>).Assembly));
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetAllEntitiesHandler<Note>).Assembly));
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetAllEntitiesHandler<Note>).Assembly));*/
 
             services.AddDbContext<MemoryDbContext>(opts => opts.UseSqlServer(connectionString));
 
@@ -35,13 +32,17 @@ namespace WebApplication5.Extensions
             services.AddScoped<IAddRepository, LinksRepository<MemoryDbContext>>();
 
             // Регистрация обобщенного обработчика
-            services.AddScoped(typeof(IRequestHandler<CreateCommand<Note>, Note>), typeof(CreateHandler<Note>));
-            services.AddScoped(typeof(IRequestHandler<CreateCommand<Reminder>, Reminder>), typeof(CreateHandler<Reminder>));
-            services.AddScoped(typeof(IRequestHandler<CreateCommand<Tag>, Tag>), typeof(CreateHandler<Tag>));
-
             services.AddScoped(typeof(IRequestHandler<GetAllEntitiesQuery<Note>, IEnumerable<Note>>), typeof(GetAllEntitiesHandler<Note>));
             services.AddScoped(typeof(IRequestHandler<GetAllEntitiesQuery<Reminder>, IEnumerable<Reminder>>), typeof(GetAllEntitiesHandler<Reminder>));
             services.AddScoped(typeof(IRequestHandler<GetAllEntitiesQuery<Tag>, IEnumerable<Tag>>), typeof(GetAllEntitiesHandler<Tag>));
+
+            services.AddScoped(typeof(IRequestHandler<GetQuery<Note>, Note>), typeof(GetHandler<Note>));
+            services.AddScoped(typeof(IRequestHandler<GetQuery<Reminder>, Reminder>), typeof(GetHandler<Reminder>));
+            services.AddScoped(typeof(IRequestHandler<GetQuery<Tag>, Tag>), typeof(GetHandler<Tag>));
+
+            services.AddScoped(typeof(IRequestHandler<CreateCommand<Note>, Note>), typeof(CreateHandler<Note>));
+            services.AddScoped(typeof(IRequestHandler<CreateCommand<Reminder>, Reminder>), typeof(CreateHandler<Reminder>));
+            services.AddScoped(typeof(IRequestHandler<CreateCommand<Tag>, Tag>), typeof(CreateHandler<Tag>));
 
             services.AddScoped(typeof(IRequestHandler<UpdateCommand<Note>, Note>), typeof(UpdateHandler<Note>));
             services.AddScoped(typeof(IRequestHandler<UpdateCommand<Reminder>, Reminder>), typeof(UpdateHandler<Reminder>));
@@ -53,6 +54,10 @@ namespace WebApplication5.Extensions
 
 
             // Регистрация обобщенного валидатора вручную
+            services.AddScoped(typeof(IValidator<GetQuery<Note>>), typeof(GetByIdValidator<Note>));
+            services.AddScoped(typeof(IValidator<GetQuery<Reminder>>), typeof(GetByIdValidator<Reminder>));
+            services.AddScoped(typeof(IValidator<GetQuery<Tag>>), typeof(GetByIdValidator<Tag>));
+
             services.AddScoped(typeof(IValidator<DeleteCommand<Note>>), typeof(DeleteValidator<Note>));
             services.AddScoped(typeof(IValidator<DeleteCommand<Reminder>>), typeof(DeleteValidator<Reminder>));
             services.AddScoped(typeof(IValidator<DeleteCommand<Tag>>), typeof(DeleteValidator<Tag>));

@@ -11,11 +11,5 @@ namespace WebApplication5.DAL
         public string Header { get; set; } = string.Empty;
         [Required]
         public string Text { get; set; } = string.Empty;
-
-
-        //public IEnumerable<NoteTag> NoteTags { get; set; } = new List<NoteTag>();
-
-
-
     }
 }

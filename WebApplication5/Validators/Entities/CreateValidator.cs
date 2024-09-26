@@ -9,8 +9,8 @@ namespace WebApplication5.Validators.Entities
     {
         public CreateValidator()
         {
-            RuleFor(cmd => cmd.Entity.Id)
-                .NotEmpty().WithMessage("Id is required.");
+/*            RuleFor(cmd => cmd.Entity.Id)
+                .NotEmpty().WithMessage("Id is required.");*/
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using WebApplication5.DAL;
 using MediatR;
 
-namespace WebApplication5.Commands.CRUD.BindTags
+namespace WebApplication5.Commands.BindTags
 {
     public class BindTagsToNoteCommand : IRequest<IEnumerable<NoteTag>?>
     {

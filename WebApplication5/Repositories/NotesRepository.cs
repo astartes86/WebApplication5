@@ -9,11 +9,6 @@ namespace WebApplication5.Repositories
             : base(dbContext)
         {
         }
-
         protected override DbSet<Note> _dbSet => _dbContext.Notes;
-
-
-
-
     }
 }

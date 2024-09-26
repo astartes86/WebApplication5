@@ -21,19 +21,14 @@ namespace WebApplication5.Repositories
            public async Task<TEntity> Add(TEntity? entity)
             {
                 await _dbSet.AddAsync(entity);
-
-                //await _dbContext.SaveChangesAsync();//гарантируем сохранность данных потому что  add добавляет новую сущность в контекст данных
             try
             {
-                // Ваш код, который сохраняет изменения в базе данных
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();//гарантируем сохранность данных потому что  add добавляет новую сущность в контекст данных
             }
             catch (Exception ex)
             {
-                // Выводим основное сообщение об ошибке
                 Console.WriteLine("!!!не хочет сохранить!!!");
 
-                // Выводим внутреннее исключение, если оно есть
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
@@ -56,15 +51,6 @@ namespace WebApplication5.Repositories
             throw new ArgumentException("No such id in base");
             }
 
-
-/*            public async Task<TEntity> Delete(TEntity entity)
-            {
-                _dbSet.Remove(entity);
-
-                await _dbContext.SaveChangesAsync();
-
-            return entity;
-            }*/
             public async Task <TEntity> Delete(int id)
             {
             var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
@@ -81,16 +67,13 @@ namespace WebApplication5.Repositories
 
             public async Task <IEnumerable<TEntity>> GetAll()
             {
-                //var notes = await _dbSet.ToListAsync();
                 return await _dbSet.ToListAsync();
             }
 
          
-            public async Task<TEntity?> GetById(int id) => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);//ого как интересно получилось записать!
-/*            {
-                return _dbSet.FirstOrDefault(x => x.Id == id);
+            public async Task<TEntity?> GetById(int id) => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);//интересно получилось записать
+        /*  {
+             return _dbSet.FirstOrDefault(x => x.Id == id);
             }*/
-
-
     }
 }
