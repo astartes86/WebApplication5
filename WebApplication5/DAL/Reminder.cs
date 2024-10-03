@@ -8,8 +8,7 @@ namespace WebApplication5.DAL
 
         public string Header { get; set; } = string.Empty;
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
-        public IEnumerable<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

@@ -3,6 +3,9 @@ using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
 using WebApplication5.Middleware;
 using WebApplication5.Repositories;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using System.Reflection;
 
 namespace WebApplication5
 {
@@ -16,20 +19,23 @@ namespace WebApplication5
 
             // Add services to the container.
             //services.AddAuthorization();
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddFluentValidationAutoValidation();
+             
+
             services.AddDbContext(configuration); // подключение DB контекста
             services.AddControllers();
 
-            builder.Services.AddScoped<IRepository<Employee>, EmployeeRepository>();//Для разрешения фреймворка внедрения зависимостей
-                                                                                    //IRepository сначала он должен быть зарегистрирован в контейнере.
-            builder.Services.AddScoped<IRepository<Note>, NotesRepository>();
-            builder.Services.AddScoped<IRepository<Reminder>, ReminderRepository>();
-            builder.Services.AddScoped<IRepository<Tag>, TagRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+               var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
