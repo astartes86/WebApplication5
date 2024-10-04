@@ -1,11 +1,8 @@
-using WebApplication5.DAL;
-using WebApplication5.Extensions;
-using WebApplication5.Interfaces;
-using WebApplication5.Middleware;
-using WebApplication5.Repositories;
-using FluentValidation.AspNetCore;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using System.Reflection;
+using WebApplication5.Extensions;
+using WebApplication5.Middleware;
 
 namespace WebApplication5
 {

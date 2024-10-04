@@ -7,6 +7,8 @@ namespace WebApplication5.Commands.CRUD.Update
     public class UpdateCommand<TEntity> : IRequest<TEntity>
 
     {
+        public UpdateCommand()
+        { }
         public TEntity Entity { get; set; }
 
         public UpdateCommand(TEntity entity)

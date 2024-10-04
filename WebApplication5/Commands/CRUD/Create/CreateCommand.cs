@@ -6,6 +6,7 @@ namespace WebApplication5.Commands.CRUD.Create
 
     {
         public CreateCommand()
+        { }
         public TEntity Entity { get; set; }
 
         public CreateCommand(TEntity entity)
