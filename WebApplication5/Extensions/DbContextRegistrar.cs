@@ -1,15 +1,14 @@
-﻿using WebApplication5.DAL;
-using Microsoft.EntityFrameworkCore;
-using WebApplication5.Interfaces;
-using WebApplication5.Repositories;
+﻿using FluentValidation;
 using MediatR;
-using FluentValidation;
-using WebApplication5.Validators.Entities;
-using WebApplication5.Queries.GetAllEntities;
+using Microsoft.EntityFrameworkCore;
 using WebApplication5.Commands.CRUD.Create;
 using WebApplication5.Commands.CRUD.Delete;
 using WebApplication5.Commands.CRUD.Update;
+using WebApplication5.DAL;
+using WebApplication5.Interfaces;
+using WebApplication5.Queries.GetAllEntities;
 using WebApplication5.Queries.GetEntity;
+using WebApplication5.Repositories;
 
 namespace WebApplication5.Extensions
 {
@@ -54,21 +53,22 @@ namespace WebApplication5.Extensions
 
 
             // Регистрация обобщенного валидатора вручную
-            services.AddScoped(typeof(IValidator<GetQuery<Note>>), typeof(GetByIdValidator<Note>));
-            services.AddScoped(typeof(IValidator<GetQuery<Reminder>>), typeof(GetByIdValidator<Reminder>));
-            services.AddScoped(typeof(IValidator<GetQuery<Tag>>), typeof(GetByIdValidator<Tag>));
+            services.AddScoped(typeof(IValidator<GetQuery<Note>>), typeof(GetByIdValidatorNote<Note>));
+            services.AddScoped(typeof(IValidator<GetQuery<Reminder>>), typeof(GetByIdValidatorReminder<Reminder>));
+            services.AddScoped(typeof(IValidator<GetQuery<Tag>>), typeof(GetByIdValidatorTag<Tag>));
 
-            services.AddScoped(typeof(IValidator<DeleteCommand<Note>>), typeof(DeleteValidator<Note>));
-            services.AddScoped(typeof(IValidator<DeleteCommand<Reminder>>), typeof(DeleteValidator<Reminder>));
-            services.AddScoped(typeof(IValidator<DeleteCommand<Tag>>), typeof(DeleteValidator<Tag>));
+            services.AddScoped(typeof(IValidator<DeleteCommand<Note>>), typeof(DeleteValidatorNote<Note>));
+            services.AddScoped(typeof(IValidator<DeleteCommand<Reminder>>), typeof(DeleteValidatorReminder<Reminder>));
+            services.AddScoped(typeof(IValidator<DeleteCommand<Tag>>), typeof(DeleteValidatorTag<Tag>));
 
-            services.AddScoped(typeof(IValidator<UpdateCommand<Note>>), typeof(UpdateValidator<Note>));
-            services.AddScoped(typeof(IValidator<UpdateCommand<Reminder>>), typeof(UpdateValidator<Reminder>));
-            services.AddScoped(typeof(IValidator<UpdateCommand<Tag>>), typeof(UpdateValidator<Tag>));
+            services.AddScoped(typeof(IValidator<UpdateCommand<Note>>), typeof(UpdateValidatorNote<Note>));
+            services.AddScoped(typeof(IValidator<UpdateCommand<Reminder>>), typeof(UpdateValidatorReminder<Reminder>));
+            services.AddScoped(typeof(IValidator<UpdateCommand<Tag>>), typeof(UpdateValidatorTag<Tag>));
 
-            services.AddScoped(typeof(IValidator<CreateCommand<Note>>), typeof(CreateValidator<Note>));
-            services.AddScoped(typeof(IValidator<CreateCommand<Reminder>>), typeof(CreateValidator<Reminder>));
-            services.AddScoped(typeof(IValidator<CreateCommand<Tag>>), typeof(CreateValidator<Tag>));
+ //           services.AddScoped(typeof(IValidator<CreateCommand<Note>>), typeof(CreateValidator<Note>));
+            services.AddScoped(typeof(IValidator<CreateCommand<Note>>), typeof(CreateValidatorNote<Note>));
+            services.AddScoped(typeof(IValidator<CreateCommand<Reminder>>), typeof(CreateValidatorReminder<Reminder>));
+            services.AddScoped(typeof(IValidator<CreateCommand<Tag>>), typeof(CreateValidatorTag<Tag>));
 
             return services;
         }

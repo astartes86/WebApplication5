@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using WebApplication5.Interfaces;
+using WebApplication5.Ordering;
 
 namespace WebApplication5.Commands.CRUD.Create
 {
@@ -21,10 +22,12 @@ namespace WebApplication5.Commands.CRUD.Create
         {
             await _validator.ValidateAndThrowAsync(request);
 
-            // Фабричный метод для создания сущности
+            // Фабричный метод для создания сущности - не особо он нужен, но пусть останется как пример
             var entity = CreateEntity(request);
 
             return await _repository.Add(entity);
+//                                               .ApplyOrder(orderable)
+//                                               .Paginate(pageable)                                               ;
         }
 
 
