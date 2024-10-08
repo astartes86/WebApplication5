@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApplication5.Extensions;
 using WebApplication5.Interfaces;
+using WebApplication5.Pagination;
 
 
 namespace WebApplication5.Repositories
@@ -65,13 +67,25 @@ namespace WebApplication5.Repositories
             }
 
 
-            public async Task <IEnumerable<TEntity>> GetAll()
+/*            public async Task <IEnumerable<TEntity>> GetAll()
             {
                 return await _dbSet.ToListAsync();
-            }
+            }*/
+        public IQueryable<TEntity> GetAll()
+        {
+            return _dbSet;
+        }
 
-         
-            public async Task<TEntity?> GetById(int id) => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);//интересно получилось записать
+        // Пример использования в другом методе
+/*        public async Task<IEnumerable<TEntity>> GetAllPagable(Pageable pageable)
+        {
+            var query = GetAll()
+                .Paginate(pageable);
+
+            return await query.ToListAsync();
+        }*/
+
+        public async Task<TEntity?> GetById(int id) => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);//интересно получилось записать
         /*  {
              return _dbSet.FirstOrDefault(x => x.Id == id);
             }*/

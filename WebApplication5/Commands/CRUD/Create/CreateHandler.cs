@@ -26,8 +26,6 @@ namespace WebApplication5.Commands.CRUD.Create
             var entity = CreateEntity(request);
 
             return await _repository.Add(entity);
-//                                               .ApplyOrder(orderable)
-//                                               .Paginate(pageable)                                               ;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using WebApplication5.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApplication5.Interfaces;
 using WebApplication5.Pagination;
 
 namespace WebApplication5.Extensions
@@ -16,27 +17,26 @@ namespace WebApplication5.Extensions
         /// <param name="pageable">параметры постраничного вывода</param>
         /// <returns>страницу данных <see cref="Page&lt;TEntity&gt;" /></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static Page<TEntity> Paginate<TEntity>(this IQueryable<TEntity> query, IPageable pageable)
+        public static async Task<Page<TEntity>> PaginateAsync<TEntity>(this IQueryable<TEntity> query, IPageable pageable)
         {
             if (pageable == null)
             {
                 throw new ArgumentNullException(nameof(pageable));
             }
 
-            return query.Paginate(pageable.PageNumber, pageable.PageSize);
+            return await query.PaginateAsync(pageable.PageNumber, pageable.PageSize);
         }
 
-        private static Page<TEntity> Paginate<TEntity>(this IQueryable<TEntity> query, int pageNumber, int pageSize)
+        private static async Task<Page<TEntity>> PaginateAsync<TEntity>(this IQueryable<TEntity> query, int pageNumber, int pageSize)
         {
             ValidatePagingParameters(query, pageNumber, pageSize);
 
-            var total = query.Count();
+            var total = await query.CountAsync();
 
-            var items = query.Skip(pageNumber * pageSize).Take(pageSize);
+            var items = await query.Skip(pageNumber * pageSize).Take(pageSize).ToListAsync();
 
             return new Page<TEntity>(items, pageNumber, pageSize, total);
         }
-
 
         private static void ValidatePagingParameters<TEntity>(IQueryable<TEntity> query, int pageNumber, int pageSize)
         {

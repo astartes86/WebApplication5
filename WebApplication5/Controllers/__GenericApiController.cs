@@ -4,6 +4,7 @@ using WebApplication5.Commands.CRUD.Create;
 using WebApplication5.Commands.CRUD.Delete;
 using WebApplication5.Commands.CRUD.Update;
 using WebApplication5.Interfaces;
+using WebApplication5.Pagination;
 using WebApplication5.Queries.GetAllEntities;
 using WebApplication5.Queries.GetEntity;
 
@@ -46,10 +47,11 @@ namespace WebApplication5.Controllers
 
 
         [HttpPost("get-all")]
-        public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TEntity>>> GetAll(GetAllEntitiesQuery<TEntity> query)
         {
-            var entities = await _mediator.Send(new GetAllEntitiesQuery<TEntity>());
-            return Ok(entities);
+            var queryEntity = await _mediator.Send(query);
+            //var entities = await _mediator.Send(new GetAllEntitiesQuery<TEntity>(pageable));
+            return Ok(queryEntity);
         }
 
 
